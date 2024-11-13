@@ -10,13 +10,11 @@ const LoginUser = async (req, res) => {
     const { email, password } = req.body
     const findUser = await accountmodel.findOne({ email })
 
-    if (!findUser) return res.status(400).json({ error: "Invalid Credentials." })
-    bcrypt.compare(password, findUser.password, function (err, isMatch) {
+    if (!findUser) return res.status(400).json({ message: "Invalid Credentials." })
+        bcrypt.compare(password, findUser.password, function (err, isMatch) {
         if (!isMatch) return res.status(400).json({ message: 'Invalid Credentials' })
         //sign token
-        let t = generateToken(findUser)
-        // res.setHeader('Authorization', `Bearer ${t}`);
-      
+        let t = generateToken(findUser)      
         if(t){
             res.cookie("jwtToken", t, {
                 httpOnly: false,
@@ -28,7 +26,7 @@ const LoginUser = async (req, res) => {
 
             res.status(200).json({ message: 'Login Successfull'  })
         }else{
-            res.status(500).json({ error: 'Login failed' });
+            res.status(500).json({ message: 'Login failed' });
 
         }
     });
