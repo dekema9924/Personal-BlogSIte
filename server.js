@@ -7,6 +7,7 @@ const { default: mongoose } = require('mongoose');
 require('dotenv').config()
 const cors = require('cors')
 const cookie = require('cookie-parser')
+require('dotenv').config();
 
 
 //middlewares
@@ -24,6 +25,6 @@ app.get('/', ((req, res)=>{
 
 app.listen(port || process.env.PORT, (()=>{
     console.log(`server open on http://localhost:${port}`)
-    mongoose.connect('mongodb://localhost:27017/Blog')
+    mongoose.connect(process.env.DATABASE_URL)
     .then(console.log('connected to db'))
 }))
